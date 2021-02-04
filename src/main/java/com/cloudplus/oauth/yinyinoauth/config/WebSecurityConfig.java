@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 /**
  * @author zhanglubin
@@ -23,6 +24,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AdminPwdAuthenticationProvider adminPwdAuthenticationProvider;
+
+    @Autowired
+    private AuthenticationSuccessHandler myAuthenticationSuccessHandler;
+
+    @Autowired
+    private AuthenticationFailureHandler myAuthenctiationFailureHandler;
 
     @Override
     @Bean
@@ -39,6 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/oauth/login")
+                .successHandler(myAuthenticationSuccessHandler)
+                .failureHandler(myAuthenctiationFailureHandler)
                 .permitAll();
     }
 
