@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloudplus.oauth.yinyinoauth.project.user.mapper.UserMapper">
+    
+    <resultMap type="User" id="UserResult">
+        <id property="userId" column="user_id"/>
+        <result property="loginName" column="login_name"/>
+        <result property="password" column="password"/>
+        <result property="salt" column="salt"/>
+    </resultMap>
+
+    <sql id="selectUserVo">
+        select u.user_id, u.login_name, u.password, u.salt
+        from sys_user u
+    </sql>
+
+    <select id="selectUser" resultMap="UserResult">
+        <include refid="selectUserVo"/>
+        <where>
+            <if test="userId != null and userId != ''">
+                AND u.user_id = #{userId}
+            </if>
+            <if test="loginName != null and loginName != ''">
+                AND u.login_name = #{loginName}
+            </if>
+        </where>
+    </select>
+
+</mapper>

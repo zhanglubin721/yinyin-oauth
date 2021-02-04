@@ -1,9 +1,10 @@
 package com.cloudplus.oauth.yinyinoauth.config;
 
-import com.cloudplus.oauth.yinyinoauth.domain.AuthorizedGrantType;
-import com.cloudplus.oauth.yinyinoauth.domain.Client;
-import com.cloudplus.oauth.yinyinoauth.domain.RedirectUri;
-import com.cloudplus.oauth.yinyinoauth.service.ClientServer;
+import com.cloudplus.oauth.yinyinoauth.project.client.domain.AuthorizedGrantType;
+import com.cloudplus.oauth.yinyinoauth.project.client.domain.Client;
+import com.cloudplus.oauth.yinyinoauth.project.client.domain.RedirectUri;
+import com.cloudplus.oauth.yinyinoauth.project.client.service.ClientServer;
+import com.cloudplus.oauth.yinyinoauth.project.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,13 +46,16 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Autowired
     private ClientServer clientServer;
 
+    @Autowired
+    private UserService userService;
+
     //添加商户信息
     @Override
     public void configure(ClientDetailsServiceConfigurer configurer) throws Exception {
         //访问服务，获取客户端配置信息
         //withClient Appid
         InMemoryClientDetailsServiceBuilder inMemoryClientDetailsServiceBuilder = configurer.inMemory();
-        ArrayList<Client> clients = clientServer.getClientData();
+        List<Client> clients = clientServer.getClientData();
         for (Client client : clients) {
             ClientDetailsServiceBuilder<InMemoryClientDetailsServiceBuilder>.ClientBuilder secret = inMemoryClientDetailsServiceBuilder.withClient(client.getClientId()).secret(passwordEncoder().encode(client.getClientSecret()));
             List<AuthorizedGrantType> authorizedGrantTypes = client.getAuthorizedGrantTypes();
@@ -125,8 +129,15 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Bean
     UserDetailsService userDetailsService() {
         InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
-        userDetailsService.createUser(User.withUsername("user").password(passwordEncoder().encode("123456"))
-                .authorities("ROLE_USER").build());
+        List<com.cloudplus.oauth.yinyinoauth.project.user.domain.User> users = userService.getUser(new com.cloudplus.oauth.yinyinoauth.project.user.domain.User());
+        for (com.cloudplus.oauth.yinyinoauth.project.user.domain.User user : users) {
+            userDetailsService.createUser(User.withUsername(user.getLoginName()).password(passwordEncoder().encode(user.getPassword()))
+                    .authorities("ROLE_USER").build());
+        }
+//        userDetailsService.createUser(User.withUsername("user").password(passwordEncoder().encode("123456"))
+//                .authorities("ROLE_USER").build());
+//        userDetailsService.createUser(User.withUsername("test").password(passwordEncoder().encode("654321"))
+//                .authorities("ROLE_USER").build());
         return userDetailsService;
     }
 

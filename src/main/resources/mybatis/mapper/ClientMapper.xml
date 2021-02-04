@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloudplus.oauth.yinyinoauth.project.client.mapper.ClientMapper">
+    
+    <resultMap type="Client" id="ClientResult">
+        <id property="clientId" column="client_id"/>
+        <result property="clientName" column="client_name"/>
+        <result property="clientSecret" column="client_secret"/>
+        <result property="scope" column="scope"/>
+        <collection property="redirectUris" ofType="RedirectUri">
+            <id property="uriId" column="uri_id"/>
+            <result property="uriClientId" column="uri_client_id"/>
+            <result property="uri" column="uri"/>
+        </collection>
+        <collection property="authorizedGrantTypes" ofType="AuthorizedGrantType">
+            <id property="authorizedGrantTypeId" column="authorized_grant_type_id"/>
+            <result property="authorizedGrantType" column="authorized_grant_type"/>
+        </collection>
+    </resultMap>
+
+    <sql id="selectClientVo">
+        select tc.client_id, tc.client_name, tc.client_secret, tc.scope, tc.client_image
+        , tru.uri_id, tru.uri_client_id, tru.uri
+        , tagt.authorized_grant_type_id, tagt.authorized_grant_type
+        from test_client tc
+        left join test_redirect_uri tru on tc.client_id = tru.uri_client_id
+        left join test_client_authorized_grant_type tcagt on tc.client_id = tcagt.client_id
+        left join test_authorized_grant_type tagt on tcagt.authorized_grant_type_id = tagt.authorized_grant_type_id
+    </sql>
+
+    <select id="selectClient" resultMap="ClientResult">
+        <include refid="selectClientVo"/>
+        <where>
+            <if test="clientId != null and clientId != ''">
+                AND tc.client_id = #{clientId}
+            </if>
+            <if test="clientName != null and clientName != ''">
+                AND tc.client_name = #{clientName}
+            </if>
+            <if test="scope != null and scope != ''">
+                AND tc.scope = #{scope}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertClient" parameterType="Client">
+        insert into test_client (client_name, client_id, client_secret, scope, client_image) VALUES
+        (#{clientName}, #{clientId}, #{clientSecret}, #{scope}, #{clientImage})
+    </insert>
+
+    <insert id="insertClientAuthorizedGrantType">
+        insert into test_client_authorized_grant_type (client_id, authorized_grant_type_id) VALUES
+            (#{clientId}, #{authorizedGrantType.authorizedGrantTypeId})
+    </insert>
+
+    <insert id="insertRedirectUri">
+        insert into test_redirect_uri (uri_client_id, uri) VALUES
+            (#{clientId}, #{redirectUri.uri})
+    </insert>
+
+    <delete id="deleteClient" parameterType="string">
+        delete from test_client where client_id = #{clientId}
+    </delete>
+
+    <delete id="deleteClientAuthorizedGrantType" parameterType="string">
+        delete from test_client_authorized_grant_type where client_id = #{clientId}
+    </delete>
+
+    <delete id="deleteRedirectUri" parameterType="string">
+        delete from test_redirect_uri where uri_client_id = #{clientId}
+    </delete>
+</mapper>

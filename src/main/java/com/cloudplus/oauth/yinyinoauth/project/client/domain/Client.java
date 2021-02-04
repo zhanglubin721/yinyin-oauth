@@ -1,4 +1,4 @@
-package com.cloudplus.oauth.yinyinoauth.domain;
+package com.cloudplus.oauth.yinyinoauth.project.client.domain;
 
 import java.util.List;
 
