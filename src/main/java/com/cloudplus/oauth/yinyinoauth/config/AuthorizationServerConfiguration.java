@@ -1,8 +1,6 @@
 package com.cloudplus.oauth.yinyinoauth.config;
 
-import com.cloudplus.oauth.yinyinoauth.project.client.domain.AuthorizedGrantType;
 import com.cloudplus.oauth.yinyinoauth.project.client.domain.Client;
-import com.cloudplus.oauth.yinyinoauth.project.client.domain.RedirectUri;
 import com.cloudplus.oauth.yinyinoauth.project.client.service.ClientServer;
 import com.cloudplus.oauth.yinyinoauth.project.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,18 +55,20 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         List<Client> clients = clientServer.getClientData(new Client());
         for (Client client : clients) {
             ClientDetailsServiceBuilder<InMemoryClientDetailsServiceBuilder>.ClientBuilder secret = inMemoryClientDetailsServiceBuilder.withClient(client.getClientId()).secret(passwordEncoder().encode(client.getClientSecret()));
-            List<AuthorizedGrantType> authorizedGrantTypes = client.getAuthorizedGrantTypes();
-            List<RedirectUri> redirectUris = client.getRedirectUris();
-            if (authorizedGrantTypes != null && authorizedGrantTypes.size() > 0) {
+            String authorizedGrantTypeString = client.getAuthorizedGrantType();
+            String uriString = client.getUri();
+            if (authorizedGrantTypeString != null && !"".equals(authorizedGrantTypeString.trim())) {
                 //设置授权码模式
-                for (AuthorizedGrantType authorizedGrantType : authorizedGrantTypes) {
-                    secret.authorizedGrantTypes(authorizedGrantType.getAuthorizedGrantType());
+                String[] authorizedGrantTypeArray = authorizedGrantTypeString.split(",");
+                for (String authorizedGrantType : authorizedGrantTypeArray) {
+                    secret.authorizedGrantTypes(authorizedGrantType);
                 }
             }
-            if (redirectUris != null && redirectUris.size() > 0) {
+            if (uriString != null && !"".equals(uriString.trim())) {
                 //设置授权码模式
-                for (RedirectUri redirectUri : redirectUris) {
-                    secret.redirectUris(redirectUri.getUri());
+                String[] uriArray = uriString.split(",");
+                for (String redirectUri : uriArray) {
+                    secret.redirectUris(redirectUri);
                 }
             }
             //false跳转到授权页面

@@ -1,5 +1,6 @@
 package com.cloudplus.oauth.yinyinoauth.project.client.domain;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,14 +13,16 @@ public class Client {
     String clientId;
     //客户端密码
     String clientSecret;
-    //支持的认证模式
-    List<AuthorizedGrantType> authorizedGrantTypes;
-    //支持的重定向地址
-    List<RedirectUri> redirectUris;
     //范围（默认为all）
     String scope;
     //客户端图标
     String clientImage;
+    //可跳转的路径集合 格式：（uri1,uri2）
+    String uri;
+    //支持的认证模式集合 格式：（1,2,3,4,5） 1：授权码模式，2：密码模式，3：客户端模式，4：隐式授权，5：刷新Tocken
+    String authorizedGrantType;
+    //创建时间
+    Date createTime;
 
     public String getClientName() {
         return clientName;
@@ -45,22 +48,6 @@ public class Client {
         this.clientSecret = clientSecret;
     }
 
-    public List<AuthorizedGrantType> getAuthorizedGrantTypes() {
-        return authorizedGrantTypes;
-    }
-
-    public void setAuthorizedGrantTypes(List<AuthorizedGrantType> authorizedGrantTypes) {
-        this.authorizedGrantTypes = authorizedGrantTypes;
-    }
-
-    public List<RedirectUri> getRedirectUris() {
-        return redirectUris;
-    }
-
-    public void setRedirectUris(List<RedirectUri> redirectUris) {
-        this.redirectUris = redirectUris;
-    }
-
     public String getScope() {
         return scope;
     }
@@ -69,17 +56,12 @@ public class Client {
         this.scope = scope;
     }
 
-    public Client(String clientName, String clientId, String clientSecret, List<AuthorizedGrantType> authorizedGrantTypes, List<RedirectUri> redirectUris, String scope, String clientImage) {
-        this.clientName = clientName;
-        this.clientId = clientId;
-        this.clientSecret = clientSecret;
-        this.authorizedGrantTypes = authorizedGrantTypes;
-        this.redirectUris = redirectUris;
-        this.scope = scope;
-        this.clientImage = clientImage;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public Client() {
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public String getClientImage() {
@@ -88,5 +70,35 @@ public class Client {
 
     public void setClientImage(String clientImage) {
         this.clientImage = clientImage;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public String getAuthorizedGrantType() {
+        return authorizedGrantType;
+    }
+
+    public void setAuthorizedGrantType(String authorizedGrantType) {
+        this.authorizedGrantType = authorizedGrantType;
+    }
+
+    public Client() {
+    }
+
+    public Client(String clientName, String clientId, String clientSecret, String scope, String clientImage, String uri, String authorizedGrantType, Date createTime) {
+        this.clientName = clientName;
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
+        this.scope = scope;
+        this.clientImage = clientImage;
+        this.uri = uri;
+        this.authorizedGrantType = authorizedGrantType;
+        this.createTime = createTime;
     }
 }

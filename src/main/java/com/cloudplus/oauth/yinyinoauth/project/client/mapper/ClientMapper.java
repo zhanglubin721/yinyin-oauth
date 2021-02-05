@@ -12,5 +12,6 @@ import java.util.List;
  */
 @Mapper
 public interface ClientMapper {
+
     List<Client> selectClient(Client client);
 }
