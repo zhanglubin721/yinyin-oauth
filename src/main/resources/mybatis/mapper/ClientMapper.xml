@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="clientName" column="client_name"/>
         <result property="clientSecret" column="client_secret"/>
         <result property="scope" column="scope"/>
+        <result property="clientImage" column="client_image"/>
         <collection property="redirectUris" ofType="RedirectUri">
             <id property="uriId" column="uri_id"/>
             <result property="uriClientId" column="uri_client_id"/>

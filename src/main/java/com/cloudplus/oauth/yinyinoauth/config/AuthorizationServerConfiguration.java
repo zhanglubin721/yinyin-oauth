@@ -55,7 +55,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         //访问服务，获取客户端配置信息
         //withClient Appid
         InMemoryClientDetailsServiceBuilder inMemoryClientDetailsServiceBuilder = configurer.inMemory();
-        List<Client> clients = clientServer.getClientData();
+        List<Client> clients = clientServer.getClientData(new Client());
         for (Client client : clients) {
             ClientDetailsServiceBuilder<InMemoryClientDetailsServiceBuilder>.ClientBuilder secret = inMemoryClientDetailsServiceBuilder.withClient(client.getClientId()).secret(passwordEncoder().encode(client.getClientSecret()));
             List<AuthorizedGrantType> authorizedGrantTypes = client.getAuthorizedGrantTypes();

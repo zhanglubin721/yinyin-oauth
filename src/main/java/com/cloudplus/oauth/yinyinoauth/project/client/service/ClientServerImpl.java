@@ -22,8 +22,8 @@ public class ClientServerImpl implements ClientServer{
      * @return
      */
     @Override
-    public List<Client> getClientData() {
-        List<Client> clients = clientMapper.selectClient(new Client());
+    public List<Client> getClientData(Client client) {
+        List<Client> clients = clientMapper.selectClient(client);
 //        ArrayList<Client> clients = new ArrayList<>();
 //        Client client1 = new Client();
 //        client1.setClientId("client1");

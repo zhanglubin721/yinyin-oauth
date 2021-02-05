@@ -1,5 +1,8 @@
 package com.cloudplus.oauth.yinyinoauth.project.client.controller;
 
+import com.cloudplus.oauth.yinyinoauth.project.client.domain.Client;
+import com.cloudplus.oauth.yinyinoauth.project.client.service.ClientServer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.AuthorizationRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,6 +20,9 @@ import java.util.Map;
 @Controller
 @SessionAttributes("authorizationRequest")
 public class ApprovalController {
+
+    @Autowired
+    private ClientServer clientServer;
 
     @RequestMapping("/custom/confirm_access")
     public String getAccessConfirmation(Map<String, Object> param, HttpServletRequest request, Model model) throws Exception {
@@ -27,9 +34,15 @@ public class ApprovalController {
         String clientId = authorizationRequest.getClientId();
         model.addAttribute("scopes",authorizationRequest.getScope());
         model.addAttribute("clientId",clientId);
-        model.addAttribute("clientImageName","'" + clientId + "'");
         //根据clientId查询客户端信息，并返回前端页面客户端名称、客户端图标等信息
-        //TODO
+        Client client = new Client();
+        client.setClientId(clientId);
+        List<Client> clientData = clientServer.getClientData(client);
+        String clientImageName = "";
+        if (clientData.size() > 0) {
+            clientImageName = clientData.get(0).getClientImage();
+        }
+        model.addAttribute("clientImageName","'" + clientImageName + "'");
         return "oauth_approval";
     }
 

@@ -10,5 +10,5 @@ import java.util.List;
  * @date 2021/2/3
  */
 public interface ClientServer {
-    List<Client> getClientData();
+    List<Client> getClientData(Client client);
 }
