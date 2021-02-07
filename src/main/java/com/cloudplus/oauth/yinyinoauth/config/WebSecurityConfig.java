@@ -26,10 +26,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private AdminPwdAuthenticationProvider adminPwdAuthenticationProvider;
 
     @Autowired
-    private AuthenticationSuccessHandler myAuthenticationSuccessHandler;
+    private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
 
     @Autowired
-    private AuthenticationFailureHandler myAuthenctiationFailureHandler;
+    private MyAuthenctiationFailureHandler myAuthenctiationFailureHandler;
 
     @Override
     @Bean
@@ -44,8 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/","/oauth/**","/login", "/css/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .headers().frameOptions().disable()
-                .and()
+//                .headers().frameOptions().disable()
+//                .and()
                 .formLogin()
                 .loginPage("/oauth/login")
                 .successHandler(myAuthenticationSuccessHandler)

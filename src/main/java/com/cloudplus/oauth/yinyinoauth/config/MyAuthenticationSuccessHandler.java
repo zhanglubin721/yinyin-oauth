@@ -18,7 +18,7 @@ import java.io.IOException;
  * @date 2021/2/4
  */
 @Component("myAuthenticationSuccessHandler")
-public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     private RequestCache requestCache = new HttpSessionRequestCache();
 
