@@ -34,6 +34,7 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
             this.clearAuthenticationAttributes(request);
             String targetUrl = savedRequest.getRedirectUrl();
             response.getWriter().write(targetUrl);
+            response.setStatus(HttpServletResponse.SC_OK);
         }
     }
 }

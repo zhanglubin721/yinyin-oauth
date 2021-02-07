@@ -65,7 +65,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 }
             }
             if (uriString != null && !"".equals(uriString.trim())) {
-                //设置授权码模式
+                //设置跳转路径
                 String[] uriArray = uriString.split(",");
                 for (String redirectUri : uriArray) {
                     secret.redirectUris(redirectUri);

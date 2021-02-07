@@ -44,10 +44,12 @@
         $('#promptDiv').css('display','none');
         $.ajax({
             type: "POST",
+            sync: false,
             url: "/oauth/login" ,
             data: $('#loginFrom').serialize(),
-            success: function (result) {
-                window.location.replace(result)
+            success: function (result, status) {
+                // window.location.replace(result)
+                window.location.href=result;
             },
             error : function(xhr) {
                 if (xhr.responseText == "password") {
@@ -56,6 +58,15 @@
                 }
             }
         });
+    }
+
+    function sleep(n) {
+        var start = new Date().getTime();
+        while (true) {
+            if (new Date().getTime() - start > n) {
+                break;
+            }
+        }
     }
 </script>
 </body>
