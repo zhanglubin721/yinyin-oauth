@@ -94,6 +94,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         endpointsConfigurer.authenticationManager(authenticationManager());
         endpointsConfigurer.userDetailsService(userDetailsService());
         endpointsConfigurer.pathMapping("/oauth/confirm_access","/custom/confirm_access");
+        endpointsConfigurer.pathMapping("/oauth/error","/oauth/error/401");
     }
 
     @Override
