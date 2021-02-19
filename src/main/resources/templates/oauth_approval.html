@@ -52,9 +52,7 @@
 </div>
 <div class="container">
     <h3 th:text="${clientId}+' 请求授权，该应用将获取你的以下信息'"></h3>
-    <div style="background-color: #68a6e9">
-        <img id="img" >
-    </div>
+    <img id="img" >
     <p>昵称，头像和性别</p>
     授权后表明你已同意 <a  href="#boot" style="color: #E9686B">OAUTH-BOOT 服务协议</a>
     <form method="post" action="/oauth/authorize">
@@ -64,6 +62,7 @@
         <div th:each="item:${scopes}">
             <input type="radio" th:name="'scope.'+${item}" value="true" hidden="hidden" checked="checked"/>
         </div>
+        <!--可勾选授权项，录入仅授权获取用户名，或者既授权用户名又授权性别年龄信息-->
 
         <button name="authorize" class="btn" type="submit" value="Authorize"> 同意/授权</button>
 

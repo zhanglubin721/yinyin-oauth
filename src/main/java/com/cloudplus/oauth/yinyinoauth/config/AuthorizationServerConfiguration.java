@@ -2,6 +2,7 @@ package com.cloudplus.oauth.yinyinoauth.config;
 
 import com.cloudplus.oauth.yinyinoauth.project.client.domain.Client;
 import com.cloudplus.oauth.yinyinoauth.project.client.service.ClientServer;
+import com.cloudplus.oauth.yinyinoauth.project.user.domain.Role;
 import com.cloudplus.oauth.yinyinoauth.project.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,6 +27,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -131,8 +134,13 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
         List<com.cloudplus.oauth.yinyinoauth.project.user.domain.User> users = userService.getUser(new com.cloudplus.oauth.yinyinoauth.project.user.domain.User());
         for (com.cloudplus.oauth.yinyinoauth.project.user.domain.User user : users) {
+            List<Role> roles = user.getRoles();
+            String[] roleKeys = new String[roles.size()];
+            for (int i = 0; i < roles.size(); i++) {
+                roleKeys[i] = roles.get(i).getRoleKey();
+            }
             userDetailsService.createUser(User.withUsername(user.getLoginName()).password(passwordEncoder().encode(user.getPassword()))
-                    .authorities("ROLE_USER").build());
+                    .authorities(roleKeys).build());
         }
 //        userDetailsService.createUser(User.withUsername("user").password(passwordEncoder().encode("123456"))
 //                .authorities("ROLE_USER").build());

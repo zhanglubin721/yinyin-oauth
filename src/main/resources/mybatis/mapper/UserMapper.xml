@@ -9,11 +9,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="loginName" column="login_name"/>
         <result property="password" column="password"/>
         <result property="salt" column="salt"/>
+        <collection property="roles" javaType="java.util.List" resultMap="RoleResult"/>
+    </resultMap>
+
+    <resultMap id="RoleResult" type="Role">
+        <id property="roleId"       column="role_id" />
+        <result property="roleName" column="role_name" />
+        <result property="roleKey"  column="role_key" />
+        <result property="roleSort" column="role_sort" />
+        <result property="dataScope" column="data_scope" />
+        <result property="status" column="role_status" />
     </resultMap>
 
     <sql id="selectUserVo">
         select u.user_id, u.login_name, u.password, u.salt
+        ,r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status
         from sys_user u
+        left join sys_user_role ur on u.user_id = ur.user_id
+        left join sys_role r on r.role_id = ur.role_id
     </sql>
 
     <select id="selectUser" resultMap="UserResult">
