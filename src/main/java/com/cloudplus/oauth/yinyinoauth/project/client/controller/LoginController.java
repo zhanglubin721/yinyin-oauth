@@ -4,7 +4,6 @@ import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;
 import com.wf.captcha.utils.CaptchaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,12 +23,9 @@ import java.util.Map;
 @RequestMapping("/oauth")
 public class LoginController {
 
-    @Autowired
-    private TokenEndpoint tokenEndpoint;
-
     @GetMapping("/login")
     public String getLoginPage() {
-        return "login";
+        return "login2";
     }
 
     @GetMapping("/error/401")
@@ -46,10 +42,8 @@ public class LoginController {
         SpecCaptcha specCaptcha = new SpecCaptcha(130, 48, 5);
         // 设置类型，纯数字、纯字母、字母数字混合
         specCaptcha.setCharType(Captcha.TYPE_ONLY_NUMBER);
-
         // 验证码存入session
         request.getSession().setAttribute("captcha", specCaptcha.text().toLowerCase());
-
         // 输出图片流
         specCaptcha.out(response.getOutputStream());
     }

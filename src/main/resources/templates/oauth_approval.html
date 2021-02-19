@@ -12,7 +12,7 @@
     }
 
     .title {
-        background-color: #E9686B;
+        background-color: #68a6e9;
         height: 50px;
         padding-left: 20%;
         padding-right: 20%;
@@ -40,7 +40,7 @@
         cursor: pointer;
         margin-top: 20px;
         border-radius: 3px;
-        background-color: #E9686B;
+        background-color: #68a6e9;
         color: white;
         border: none;
         font-size: 15px;
@@ -49,13 +49,12 @@
 <body style="margin: 0px">
 <div class="title">
     <div class="title-right">OAUTH-BOOT 授权</div>
-    <div class="title-left">
-        <a href="#help">帮助</a>
-    </div>
 </div>
 <div class="container">
     <h3 th:text="${clientId}+' 请求授权，该应用将获取你的以下信息'"></h3>
-    <img id="img" ><!--th:src="@{/image/client1.png}"-->
+    <div style="background-color: #68a6e9">
+        <img id="img" >
+    </div>
     <p>昵称，头像和性别</p>
     授权后表明你已同意 <a  href="#boot" style="color: #E9686B">OAUTH-BOOT 服务协议</a>
     <form method="post" action="/oauth/authorize">
