@@ -60,7 +60,7 @@
         <input type="hidden" name="user_oauth_approval" value="true">
 
         <div th:each="item:${scopes}">
-            <input type="radio" th:name="'scope.'+${item}" value="true" hidden="hidden" checked="checked"/>
+            <input type="radio" th:name="'scope.'+${item}" value="true" style="display: none"/>
         </div>
         <!--可勾选授权项，录入仅授权获取用户名，或者既授权用户名又授权性别年龄信息-->
 

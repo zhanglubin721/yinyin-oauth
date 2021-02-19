@@ -74,6 +74,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                     secret.redirectUris(redirectUri);
                 }
             }
+            secret.scopes(client.getScope());
             //false跳转到授权页面
             secret.autoApprove(false)
                     .accessTokenValiditySeconds(accessTokenValiditySecond)
