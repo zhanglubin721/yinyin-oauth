@@ -17,3 +17,14 @@ mybatis:
 logging:
   level:
     org.springframework: debug
+
+#security:
+#  oauth2:
+#    client:
+#      client-id: yinyinShop
+#      client-secret: 123456
+#      access-token-uri: http://localhost:9930/oauth/token
+#      user-authorization-uri: http://localhost:9930/oauth/authorize
+#    resource:
+#      id: resource
+#      token-info-uri: http://localhost:9930/oauth/check_token

@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/img/**", "/ebank/**", "/js/**", "/ajax/**", "/oauth/**","/login/**", "/css/**", "/captcha/**").permitAll()
+                .antMatchers("/", "/img/**", "/ebank/**", "/js/**", "/ajax/**", "/oauth/**","/login/**", "/css/**", "/captcha/**", "/oauth/token", "/oauth/authorize").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().sameOrigin()
