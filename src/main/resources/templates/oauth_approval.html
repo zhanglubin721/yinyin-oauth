@@ -12,7 +12,7 @@
     }
 
     .title {
-        background-color: #68a6e9;
+        background-color: #51b7ec;
         height: 50px;
         padding-left: 20%;
         padding-right: 20%;
@@ -40,7 +40,7 @@
         cursor: pointer;
         margin-top: 20px;
         border-radius: 3px;
-        background-color: #68a6e9;
+        background-color: #1F6FFF;
         color: white;
         border: none;
         font-size: 15px;
@@ -48,25 +48,25 @@
 </style>
 <body style="margin: 0px">
 <div class="title">
-    <div class="title-right">OAUTH-BOOT 授权</div>
+    <div class="title-right">银银登录</div>
 </div>
-<div class="container">
-    <h3 th:text="${clientId}+' 请求授权，该应用将获取你的以下信息'"></h3>
-    <img id="img" >
-    <p>昵称，头像和性别</p>
-    授权后表明你已同意 <a  href="#boot" style="color: #E9686B">OAUTH-BOOT 服务协议</a>
+<div class="container" style="margin-top: 5%">
+    <img id="img" style="height: 80px">
+    <h3 th:text="${clientName}+'将会获取以下权限'"></h3>
+    <h3 th:text="${clientId}" style="display: none"></h3>
     <form method="post" action="/oauth/authorize">
 
         <input type="hidden" name="user_oauth_approval" value="true">
 
         <div th:each="item:${scopes}">
+            <p>获得您的昵称、头像、性别</p>
             <input type="radio" th:name="'scope.'+${item}" value="true" style="display: none" checked="checked"/>
         </div>
         <!--可勾选授权项，录入仅授权获取用户名，或者既授权用户名又授权性别年龄信息-->
-
         <button name="authorize" class="btn" type="submit" value="Authorize"> 同意/授权</button>
 
     </form>
+    授权后表明你已同意 <a  href="#" style="color: #51b7ec">银银登录服务协议</a>
 </div>
 <script>
     var clientImageName = [(${clientImageName})];

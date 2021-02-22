@@ -39,10 +39,13 @@ public class ApprovalController {
         client.setClientId(clientId);
         List<Client> clientData = clientServer.getClientData(client);
         String clientImageName = "";
+        String clientName = "";
         if (clientData.size() > 0) {
             clientImageName = clientData.get(0).getClientImage();
+            clientName = clientData.get(0).getClientName();
         }
         model.addAttribute("clientImageName","'" + clientImageName + "'");
+        model.addAttribute("clientName",clientName);
         return "oauth_approval";
     }
 
