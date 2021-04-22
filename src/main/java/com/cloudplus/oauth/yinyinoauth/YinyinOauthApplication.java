@@ -9,6 +9,7 @@ public class YinyinOauthApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(YinyinOauthApplication.class, args);
+        System.out.println("-------------认证服务启动成功----------------");
     }
 
 }
